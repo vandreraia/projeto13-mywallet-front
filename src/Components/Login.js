@@ -15,8 +15,8 @@ export default function Login() {
     function login(event) {
         event.preventDefault();
         const body2 = {
-            email: "ze@gmail.com",
-            password: "123456"
+            email: "a@a.com",
+            password: "c"
         };
         const body = {
             email,
@@ -24,7 +24,7 @@ export default function Login() {
         };
         setLoading(true);
 
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
+        const promise = axios.post("http://localhost:5000/login",
             body2);
         promise.then((res) => {
             // setToken({
@@ -39,7 +39,7 @@ export default function Login() {
 
         promise.catch(() => {
             setLoading(false);
-            console.log("falha de login");
+            alert("falha de login");
         }
         );
     }
@@ -60,6 +60,8 @@ export default function Login() {
 }
 
 const Container = styled.div`
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
