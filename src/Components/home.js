@@ -9,11 +9,11 @@ export default function Home() {
     const [entries, setEntries] = useState();
 
     useEffect(() => {
-
-        axios.get("http://localhost:5000/entry", "", token)
+        console.log(token)
+        axios.get("http://localhost:5000/entry", token)
             .then((res) => setEntries(res.data))
             .catch(err => console.log(err));
-    }, [entries])
+    }, [])
 
 
     return (
