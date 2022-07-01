@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import axios from 'axios';
 import PropagateLoader from "react-spinners/PropagateLoader";
-
+import UserContext from '../Context/userContext';
 
 export default function Login() {
-    // const { setToken } = useContext(TokenContext);
+    const { setToken, setName } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [email, setEmail] = useState();
@@ -27,11 +27,12 @@ export default function Login() {
         const promise = axios.post("http://localhost:5000/login",
             body2);
         promise.then((res) => {
-            // setToken({
-            //     headers: {
-            //         Authorization: `Bearer ${res.data.token}`
-            //     }
-            // });
+            setToken({
+                headers: {
+                    Authorization: `Bearer ${res.data.token}`
+                }
+            });
+            setName(res.data.name)
             setLoading(false);
             navigate("/home");
         }

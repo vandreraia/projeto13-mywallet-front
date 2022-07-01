@@ -1,5 +1,48 @@
+import styled from 'styled-components';
+import PropagateLoader from "react-spinners/PropagateLoader";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 export default function Entrada() {
+    const navigate = useNavigate();
+    const [value, setValue] = useState();
+    const [description, setDescription] = useState();
+    const [loading, setLoading] = useState(false);
+
+    function newEntry(event) {
+        event.preventDefault();
+        setLoading(true);
+        const body = {
+            value,
+            description,
+            type: "in"
+        }
+
+        axios.post("http://localhost:5000/entry", body)
+            .then((res) => {
+                navigate("/home")
+            })
+            .catch((err) => {
+                console.log(err);
+            }
+            )
+
+        setLoading(false);
+    }
     return (
-        <>entrada</>
+        <>
+            Nova entrada
+            <Form onSubmit={newEntry} >
+                <input disabled={loading ? true : false} type="text" placeholder="Valor" onChange={e => setValue(e.target.value)}></input>
+                <input disabled={loading ? true : false} type="text" placeholder="Descricao" onChange={e => setDescription(e.target.value)}></input>
+                <button type="submit"><PropagateLoader size={10} loading={loading} color="white" />{loading ? "" : "Salvar entrada"}</button>
+            </Form>
+        </>
     )
 }
+
+const Form = styled.form`
+display: flex;
+flex-direction: collum;
+`
