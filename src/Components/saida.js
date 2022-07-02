@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../Context/userContext';
 
 export default function Entrada() {
     const navigate = useNavigate();
+    const { name, token} = useContext(UserContext);
     const [value, setValue] = useState();
     const [description, setDescription] = useState();
     const [loading, setLoading] = useState(false);
@@ -14,12 +16,12 @@ export default function Entrada() {
         event.preventDefault();
         setLoading(true);
         const body = {
-            value,
-            description,
+            value: "6.663",
+            description: "satan",
             type: "out"
         }
 
-        axios.post("http://localhost:5000/entry", body)
+        axios.post("http://localhost:5000/entry", body, token)
             .then((res) => {
                 navigate("/home")
             })

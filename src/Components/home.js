@@ -5,11 +5,10 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from '../Context/userContext';
 
 export default function Home() {
-    const { name, token} = useContext(UserContext);
+    const { name, token } = useContext(UserContext);
     const [entries, setEntries] = useState();
 
     useEffect(() => {
-        console.log(token)
         axios.get("http://localhost:5000/entry", token)
             .then((res) => setEntries(res.data))
             .catch(err => console.log(err));
@@ -29,12 +28,15 @@ export default function Home() {
                             <div>
                                 {entry.date} {entry.description}
                             </div>
-                            <div>
-                                {entry.value}
-                            </div>
+                            <Value type={entry.type}>
+                                {entry.value.toString().replace('.', ',')}
+                            </Value>
                         </Entry>
                     )
                     : "Não há registros de entrada ou saída"}
+                <div>
+                    <p><b>Saldo</b></p><p>2000</p>
+                </div>
             </Center>
             <Bottom>
                 <Link to="/entrada">
@@ -62,7 +64,6 @@ const Top = styled.div`
     margin-bottom: 20px;
 `
 
-
 const Center = styled.div`
 overflow: scroll;
 background-color: white;
@@ -70,6 +71,13 @@ color: #868686;
 height: 70vh;
 margin: 10px 0;
 padding 10px 5px;
+    div {
+        display: flex;
+        justify-content: space-between;
+        position: sticky;
+        bottom: 0;
+        background-color: white;
+    }
 `
 
 const Entry = styled.div`
@@ -78,6 +86,11 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 `
+
+const Value = styled.div`
+color: ${props => props.type === "in" ? "#03AC00" : "#C70000"};
+`
+
 const Bottom = styled.div`
 display: flex;
 
