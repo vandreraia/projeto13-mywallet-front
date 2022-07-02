@@ -7,10 +7,14 @@ import UserContext from '../Context/userContext';
 export default function Home() {
     const { name, token } = useContext(UserContext);
     const [entries, setEntries] = useState();
+    const [total, setTotal] = useState();
 
     useEffect(() => {
         axios.get("http://localhost:5000/entry", token)
-            .then((res) => setEntries(res.data))
+            .then((res) => {
+                setEntries(res.data.entries);
+                setTotal(res.data.total);
+            })
             .catch(err => console.log(err));
     }, [])
 
@@ -26,16 +30,16 @@ export default function Home() {
                     ? entries.map((entry, index) =>
                         <Entry key={index}>
                             <div>
-                                {entry.date} {entry.description}
+                                <Gray>{entry.date}</Gray> {entry.description}
                             </div>
                             <Value type={entry.type}>
                                 {entry.value.toString().replace('.', ',')}
                             </Value>
                         </Entry>
                     )
-                    : "Não há registros de entrada ou saída"}
+                    : <Gray>Não há registros de entrada ou saída</Gray>}
                 <div>
-                    <p><b>Saldo</b></p><p>2000</p>
+                    <p><b>Saldo</b></p><p>{total}</p>
                 </div>
             </Center>
             <Bottom>
@@ -56,7 +60,9 @@ export default function Home() {
     )
 }
 
-
+const Gray = styled.span`
+color: gray;
+`
 const Top = styled.div`
     display: flex;
     align-items: center;
@@ -67,7 +73,7 @@ const Top = styled.div`
 const Center = styled.div`
 overflow: scroll;
 background-color: white;
-color: #868686;
+color: black;
 height: 70vh;
 margin: 10px 0;
 padding 10px 5px;
@@ -81,7 +87,7 @@ padding 10px 5px;
 `
 
 const Entry = styled.div`
-margin: 10px;
+margin: 20px;
 display: flex;
 justify-content: space-between;
 align-items: center;
