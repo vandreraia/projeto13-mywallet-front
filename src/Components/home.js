@@ -10,7 +10,7 @@ export default function Home() {
     const [total, setTotal] = useState();
 
     useEffect(() => {
-        axios.get("https://git.heroku.com/mywallet90.git/entry", token)
+        axios.get("http://localhost:5000/entry", token)
             .then((res) => {
                 setEntries(res.data.entries);
                 setTotal(res.data.total);
