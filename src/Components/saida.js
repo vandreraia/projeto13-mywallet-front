@@ -16,8 +16,8 @@ export default function Entrada() {
         event.preventDefault();
         setLoading(true);
         const body = {
-            value: "6.663",
-            description: "satan",
+            value,
+            description,
             type: "out"
         }
 

@@ -14,10 +14,6 @@ export default function Login() {
 
     function login(event) {
         event.preventDefault();
-        const body2 = {
-            email: "aca@a.com",
-            password: "c"
-        };
         const body = {
             email,
             password
@@ -25,7 +21,7 @@ export default function Login() {
         setLoading(true);
 
         const promise = axios.post("http://localhost:5000/login",
-            body2);
+            body);
         promise.then((res) => {
             setToken({
                 headers: {
